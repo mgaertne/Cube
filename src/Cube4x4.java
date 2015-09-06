@@ -12,16 +12,16 @@ public class Cube4x4 {
 		CubeSolver solver = new CubeSolver(cubedef);
 		
 		// Start bei einer Auwahl von Positionen/Richtungen (Rest redundant wegen Symmetrie)
-		solver.fold(0, 1, new int[] { 0, 0, 0 }, new int[] { 1, 0, 0 }); solver.clear(0);	
-		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 1, 0, 0 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 0, 1, 0 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 0, -1, 0 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 0, 0, 1 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {1, 1, 0}, new int[] { 1, 0, 0 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {1, 1, 0}, new int[] { -1, 0, 0 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {1, 1, 0}, new int[] { 0, 0, 1 }); solver.clear(0); 
-		solver.fold(0, 1, new int[] {1, 1, 1}, new int[] { 1, 0, 0 }); solver.clear(0);
-		solver.fold(0, 1, new int[] {1, 1, 1}, new int[] { -1, 0, 0 }); solver.clear(0);
+		solver.fold(0, 1, new int[] {0, 0, 0}, new int[] { 1, 0, 0 }); solver.reset();	
+		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 1, 0, 0 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 0, 1, 0 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 0, -1, 0 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {0, 1, 0}, new int[] { 0, 0, 1 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {1, 1, 0}, new int[] { 1, 0, 0 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {1, 1, 0}, new int[] { -1, 0, 0 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {1, 1, 0}, new int[] { 0, 0, 1 }); solver.reset(); 
+		solver.fold(0, 1, new int[] {1, 1, 1}, new int[] { 1, 0, 0 }); solver.reset();
+		solver.fold(0, 1, new int[] {1, 1, 1}, new int[] { -1, 0, 0 }); solver.reset();
 		
 		System.out.println("Finished Cube Simulation");
 	}
