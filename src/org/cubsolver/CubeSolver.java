@@ -15,7 +15,8 @@ public class CubeSolver {
 	public CubeSolver(int[] cubedef) {
 		this.cubedef = cubedef;
 
-		cube = new int[dimensions()][dimensions()][dimensions()];
+		int dimensions = dimensions();
+		cube = new int[dimensions][dimensions][dimensions];
 	}
 	
 	public void reset() {
@@ -45,48 +46,58 @@ public class CubeSolver {
 
 	public void fold(int segment, int count, int pos[], int direction[]) {
 		folds++;
-		if (folds % 10000000 == 0) { // Fortschrittsanzeige in Mio. Faltungen
+		if (folds % 10000000 == 0) {
 			System.out.println("Mio: " + (folds / 1000000));
 		}
-		cube[pos[0]][pos[1]][pos[2]] = count; // Würfelchen setzen
+		cube[pos[0]][pos[1]][pos[2]] = count;
 		if (isSolved(count)) {
 			System.out.println("Lösung:");
 			print();
 			return;
 		}
-		int orig_count = count; // Länge der bisherigen Faltung merken
-		for (int i = 2; i <= cubedef[segment]; i++) { // weitere Würfelchen des
-													// Segments setzen
+		int orig_count = count;
+		for (int i = 2; i <= cubedef[segment]; i++) {
 			for (int j = 0; j <= 2; j++)
-				pos[j] += direction[j]; // einen Schritt weiter
+				pos[j] += direction[j];
 			count++;
-			if (pos[0] >= 0 && pos[1] >= 0 && pos[2] >= 0 && pos[0] <= 3 && pos[1] <= 3 && pos[2] <= 3
-					&& cube[pos[0]][pos[1]][pos[2]] == 0) { // im Spielraum und
-															// frei:
-				cube[pos[0]][pos[1]][pos[2]] = count; // Würfelchen setzen
-			} else {
+			if (!isValidPosition(pos) || cube[pos[0]][pos[1]][pos[2]] != 0) {
 				clear(orig_count - 1);
 				return;
 			}
+			cube[pos[0]][pos[1]][pos[2]] = count;
 		}
-		for (int i = 0; i <= 2; i++)
-			for (int j = -1; j <= 1; j += 2)
-				if (direction[i] == 0) {
+		for (int i = 0; i <= 2; i++) {
+			if (direction[i] == 0) {
+				for (int j = -1; j <= 1; j += 2) {
 					int[] newDirection = new int[3];
 					newDirection[i] = j;
 					fold(segment + 1, count, pos.clone(), newDirection);
 				}
+			}
+		}
+	}
+
+	private boolean isValidPosition(int[] pos) {
+		return pos[0] >= 0 && pos[0] < dimensions() && pos[1] >= 0 && pos[1] < dimensions() && pos[2] >= 0  && pos[2] < dimensions();
 	}
 
 	private boolean isSolved(int count) {
-		return count >= 63;
+		return count >= piecesCount();
 	}
 
 	public int dimensions() {
+		if (cube != null) {
+			return cube.length;
+		}
+		int counts = piecesCount();
+		return valueOf(round(pow(counts, 1.0 / 3))).intValue();
+	}
+
+	private int piecesCount() {
 		int counts = 1;
 		for (int i = 0; i < cubedef.length; i++) {
 			counts += cubedef[i] -1;
 		}
-		return valueOf(round(pow(counts, 1.0/3))).intValue();
+		return counts;
 	}
 }
